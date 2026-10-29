@@ -1,39 +1,50 @@
+
 #include <iostream>
-#include <stack>
 #include <string>
 #include <cctype>
 using namespace std;
 
-int precedence(char op) {
-    if (op == '^') return 3;
-    if (op == '*' || op == '/') return 2;
-    if (op == '+' || op == '-') return 1;
+char st[100];
+int top = -1;
+
+int precedence(char c) {
+    if (c == '^') return 3;
+    if (c == '*' || c == '/') return 2;
+    if (c == '+' || c == '-') return 1;
     return 0;
 }
 
 int main() {
     string infix, postfix;
-    stack<char> st;
-    cout << "Enter infix expression (single-letter/digit operands): ";
+
+    cout << "Enter infix expression: ";
     cin >> infix;
+
     for (char c : infix) {
-        if (isalnum(static_cast<unsigned char>(c))) postfix += c;
-        else if (c == '(') st.push(c);
+        if (isalnum(c))
+            postfix += c;
+        else if (c == '(')
+            st[++top] = c;
         else if (c == ')') {
-            while (!st.empty() && st.top() != '(') {
-                postfix += st.top(); st.pop();
-            }
-            if (!st.empty()) st.pop();
-        } else {
-            while (!st.empty() && st.top() != '(' &&
-                (precedence(st.top()) > precedence(c) ||
-                (precedence(st.top()) == precedence(c) && c != '^'))) {
-                postfix += st.top(); st.pop();
-            }
-            st.push(c);
+            while (top >= 0 && st[top] != '(')
+                postfix += st[top--];
+            if (top >= 0)
+                top--;
+        }
+        else {
+            while (top >= 0 && st[top] != '(' &&
+                  (precedence(st[top]) > precedence(c) ||
+                  (precedence(st[top]) == precedence(c) && c != '^')))
+                postfix += st[top--];
+
+            st[++top] = c;
         }
     }
-    while (!st.empty()) { postfix += st.top(); st.pop(); }
-    cout << "Postfix: " << postfix << "\n";
+
+    while (top >= 0)
+        postfix += st[top--];
+
+    cout << "Postfix expression: " << postfix;
     return 0;
 }
+```
