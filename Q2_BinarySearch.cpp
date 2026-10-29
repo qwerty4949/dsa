@@ -1,26 +1,49 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
 
 int main() {
-    int n, a[100], key;
-    cout << "Number of students: ";
+    int n, searchID, temp;
+    int ids[50];
+
+    cout << "Enter number of student IDs: ";
     cin >> n;
+
     cout << "Enter student IDs: ";
-    for (int i = 0; i < n; i++) cin >> a[i];
-    sort(a, a + n);
-    cout << "Sorted IDs: ";
-    for (int i = 0; i < n; i++) cout << a[i] << " ";
-    cout << "\nEnter ID to search: ";
-    cin >> key;
-    int low = 0, high = n - 1, pos = -1;
-    while (low <= high) {
-        int mid = low + (high - low) / 2;
-        if (a[mid] == key) { pos = mid; break; }
-        if (a[mid] < key) low = mid + 1;
-        else high = mid - 1;
+    for (int i = 0; i < n; i++)
+        cin >> ids[i];
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+            if (ids[i] > ids[j]) {
+                temp = ids[i];
+                ids[i] = ids[j];
+                ids[j] = temp;
+            }
+        }
     }
-    if (pos != -1) cout << "ID found at sorted index " << pos << "\n";
-    else cout << "ID not found\n";
+
+    cout << "Sorted IDs: ";
+    for (int i = 0; i < n; i++)
+        cout << ids[i] << " ";
+
+    cout << "\nEnter ID to search: ";
+    cin >> searchID;
+
+    int low = 0, high = n - 1;
+
+    while (low <= high) {
+        int mid = (low + high) / 2;
+
+        if (ids[mid] == searchID) {
+            cout << "ID found at index " << mid;
+            return 0;
+        }
+        else if (searchID < ids[mid])
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+
+    cout << "ID not found";
     return 0;
 }
