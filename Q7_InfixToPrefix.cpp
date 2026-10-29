@@ -1,9 +1,18 @@
 #include <iostream>
-#include <stack>
 #include <string>
-#include <algorithm>
 #include <cctype>
 using namespace std;
+
+char stackArray[100];
+int top = -1;
+
+void push(char ch) {
+    stackArray[++top] = ch;
+}
+
+char pop() {
+    return stackArray[top--];
+}
 
 int precedence(char op) {
     if (op == '^') return 3;
@@ -13,37 +22,50 @@ int precedence(char op) {
 }
 
 int main() {
-    string infix, rev, prefix;
-    stack<char> st;
-    cout << "Enter infix expression (single-letter/digit operands): ";
+    string infix, reversed, postfix, prefix;
+
+    cout << "Enter infix expression: ";
     cin >> infix;
-    rev = infix;
-    reverse(rev.begin(), rev.end());
-    for (char &c : rev) {
-        if (c == '(') c = ')';
-        else if (c == ')') c = '(';
+
+    for (int i = (int)infix.length() - 1; i >= 0; i--)
+        reversed += infix[i];
+
+    for (int i = 0; i < (int)reversed.length(); i++) {
+        if (reversed[i] == '(')
+            reversed[i] = ')';
+        else if (reversed[i] == ')')
+            reversed[i] = '(';
     }
-    string post;
-    for (char c : rev) {
-        if (isalnum(static_cast<unsigned char>(c))) post += c;
-        else if (c == '(') st.push(c);
-        else if (c == ')') {
-            while (!st.empty() && st.top() != '(') {
-                post += st.top(); st.pop();
-            }
-            if (!st.empty()) st.pop();
-        } else {
-            while (!st.empty() && st.top() != '(' &&
-                (precedence(st.top()) > precedence(c) ||
-                (precedence(st.top()) == precedence(c) && c == '^'))) {
-                post += st.top(); st.pop();
-            }
-            st.push(c);
+
+    for (char ch : reversed) {
+        if (isalnum((unsigned char)ch))
+            postfix += ch;
+        else if (ch == '(')
+            push(ch);
+        
+        else if (ch == ')') {
+            while (top != -1 && stackArray[top] != '(')
+                postfix += pop();
+
+            if (top != -1)
+                pop();
+        }
+        else {
+            while (top != -1 && stackArray[top] != '(' &&
+                  (precedence(stackArray[top]) > precedence(ch) ||
+                  (precedence(stackArray[top]) == precedence(ch) && ch == '^')))
+                postfix += pop();
+
+            push(ch);
         }
     }
-    while (!st.empty()) { post += st.top(); st.pop(); }
-    prefix = post;
-    reverse(prefix.begin(), prefix.end());
-    cout << "Prefix: " << prefix << "\n";
+
+    while (top != -1)
+        postfix += pop();
+
+    for (int i = (int)postfix.length() - 1; i >= 0; i--)
+        prefix += postfix[i];
+
+    cout << "Prefix expression: " << prefix;
     return 0;
 }
