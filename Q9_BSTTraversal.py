@@ -1,41 +1,50 @@
 class Node:
     def __init__(self, value):
-        self.value = value
         self.left = self.right = None
+        self.data = value
 
 def insert(root, value):
-    if root is None:
+    if root == None:
         return Node(value)
-    if value < root.value:
+
+    if value < root.data:
         root.left = insert(root.left, value)
-    elif value > root.value:
+    elif value > root.data:
         root.right = insert(root.right, value)
+
     return root
 
-def inorder(root):
-    if root:
-        inorder(root.left)
-        print(root.value, end=" ")
-        inorder(root.right)
+def preOrder(root):
+    if root != None:
+        print(root.data, end=" ")
+        preOrder(root.left)
+        preOrder(root.right)
 
-def preorder(root):
-    if root:
-        print(root.value, end=" ")
-        preorder(root.left)
-        preorder(root.right)
+def inOrder(root):
+    if root != None:
+        inOrder(root.left)
+        print(root.data, end=" ")
+        inOrder(root.right)
 
-def postorder(root):
-    if root:
-        postorder(root.left)
-        postorder(root.right)
-        print(root.value, end=" ")
+def postOrder(root):
+    if root != None:
+        postOrder(root.left)
+        postOrder(root.right)
+        print(root.data, end=" ")
 
-values = list(map(int, input("Enter integers: ").split()))
+values = list(map(int, input("Enter values: ").split()))
+
 root = None
 for value in values:
     root = insert(root, value)
 
-print("Inorder:", end=" "); inorder(root)
-print("\nPreorder:", end=" "); preorder(root)
-print("\nPostorder:", end=" "); postorder(root)
+print("PreOrder Traversal:", end=" ")
+preOrder(root)
+
+print("\nInorder Traversal:", end=" ")
+inOrder(root)
+
+print("\nPostOrder Traversal:", end=" ")
+postOrder(root)
+
 print()
