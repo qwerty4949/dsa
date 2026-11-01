@@ -1,23 +1,27 @@
-def heapify(a, n, i):
-    largest = i
-    left = 2 * i + 1
-    right = 2 * i + 2
-    if left < n and a[left] > a[largest]:
+def heapify(arr, size, root):
+    largest = root
+    left = 2 * root + 1
+    right = 2 * root + 2
+    if left < size and arr[left] > arr[largest]:
         largest = left
-    if right < n and a[right] > a[largest]:
+    if right < size and arr[right] > arr[largest]:
         largest = right
-    if largest != i:
-        a[i], a[largest] = a[largest], a[i]
-        heapify(a, n, largest)
+    if largest != root:
+        arr[root], arr[largest] = arr[largest], arr[root]
+        heapify(arr, size, largest)
+def heap_sort(arr):
+    size = len(arr)
 
-def heap_sort(a):
-    n = len(a)
-    for i in range(n // 2 - 1, -1, -1):
-        heapify(a, n, i)
-    for i in range(n - 1, 0, -1):
-        a[0], a[i] = a[i], a[0]
-        heapify(a, i, 0)
+    for index in range(size // 2 - 1, -1, -1):
+        heapify(arr, size, index)
 
-a = list(map(int, input("Enter integers: ").split()))
-heap_sort(a)
-print("Sorted array:", *a)
+    for index in range(size - 1, 0, -1):
+        arr[0], arr[index] = arr[index], arr[0]
+        heapify(arr, index, 0)
+
+
+arr = list(map(int, input("Enter integers: ").split()))
+
+heap_sort(arr)
+
+print("Sorted array:", *arr)
