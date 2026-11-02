@@ -1,0 +1,24 @@
+Q.No.	Practical	Time Complexity	Space Complexity
+1	Linear Search	Best: O(1), Worst: O(n)	O(n)
+2	Binary Search (with sorting)	O(n²)	O(n)
+3	Bubble Sort	O(n²)	O(n)
+4	Binary Search (with sorting)	O(n²)	O(n)
+5	Stack using Linked List	Push: O(1), Pop: O(1), Display: O(n)	O(n)
+6	Infix to Postfix	O(n)	O(n)
+7	Infix to Prefix	O(n)	O(n)
+8	Circular Queue	Enqueue: O(1), Dequeue: O(1), Display: O(n)	O(1)
+
+
+Q.No.	Practical	Time Complexity	Space Complexity
+9	BST Traversals	Average: O(n log n), Worst: O(n²)	O(n)
+10	BST Search	Average: O(n log n), Worst: O(n²)	O(n)
+11	BST Deletion	Average: O(n log n), Worst: O(n²)	O(n)
+12	BST Depth and Leaf Nodes	Average: O(n log n), Worst: O(n²)	O(n)
+13	Kruskal's MST	O(E log E)	O(V + E)
+14	Prim's MST (Adjacency Matrix)	O(V³)	O(V²)
+15	Heap Sort	O(n log n)	O(log n)
+16	Merge Sort	O(n log n)	O(n log n)
+17	Fractional Knapsack	O(n log n)	O(n)
+18	Naive String Matching	O((n − m + 1) × m), approximately O(nm)	O(k + m)
+19	BFS Shortest Path	O(R × C)	O(R × C)
+20	A* Search	Worst case: O(V log V) for this grid implementation	O(V)
