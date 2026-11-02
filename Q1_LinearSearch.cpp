@@ -32,3 +32,5 @@ int main() {
     delete[] students;
     return 0;
 }
+
+//Best: O(1), Worst: O(n)	O(n)
